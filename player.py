@@ -5,7 +5,7 @@ import numpy as np
 # import random
 # import copy
 # import game
-from game import Game
+# from game import Game
 
 class Player:
 
@@ -65,7 +65,7 @@ class Player:
                 elif game.troops[destination_country][0] == 0:
                     
                     #re-assign the winner to the destination country
-                    game.troops[destination_country][1] = attacking_country
+                    game.troops[destination_country][1] = self.id#.id
                     
                     #move the troops to the destinaiton country
                     game.troops[destination_country][0] = game.troops[attacking_country][0]-1
