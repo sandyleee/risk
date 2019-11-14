@@ -8,7 +8,7 @@ import random
 usa_states = {"A":["B","C"],"B":["A","C"], "C":["B","A"],}
 
 #starting troop: country:(number of troops, player)
-starting_troops = {"A":[5,1],"B":[8,1],"C":[1,0]}
+starting_troops = {"A":[5,1],"B":[8,1],"C":[3,0]}
 
 class Game:
 
@@ -22,8 +22,7 @@ class Game:
     def generate_players(self):
         self.players = []
         for i in range(0,self.players_num):
-            # type = self.player_types[i]
-            self.players.append(Player(i))
+            self.players.append(Player(i,self))
 
     def get_countries(self,player):
         countries = []
