@@ -1,4 +1,5 @@
 import numpy as np
+from copy import deepcopy
 # from troop import Troop
 # starting_troops = 25
 # from agent import Agent
@@ -7,11 +8,12 @@ import numpy as np
 # import game
 # from game import Game
 
+lost_soldiers ={(1,1):{(0,1):15./36,(1,0):21./36},(2,1):{(0,1):125./216,(1,0):91./216},(3,1):{(0,1):855./1296,(1,0):441./1296},(1,2):{(0,1):55./216,(1,0):161./216},(2,2):{(0,2):295./1296,(2,0):581./1296,(1,1):420./1296},(3,2):{(0,2):2890./7776,(2,0):2275./7776,(1,1):2611./7776}}
 class Player:
-
     def __init__(self, id, game):
         self.id = id
         self.game = game#from game class
+
     def get_attackable(self):
         #to ckeck if it is the player's turn
         if self.game.player_turn != self.id:
@@ -41,8 +43,6 @@ class Player:
                 attacker_troops = min(self.game.troops[attacking_country][0]-1,3)
                 defender_troops = min(self.game.troops[destination_country][0],2)
                 battle_troops = min(attacker_troops,defender_troops)
-
-
                 attacker_dice = np.sort(np.random.randint(1,7,attacker_troops))[::-1][:battle_troops]
                 defender_dice = np.sort(np.random.randint(1, 7, defender_troops))[::-1][:battle_troops]
 
@@ -74,8 +74,7 @@ class Player:
                 raise ('error: you can not attack to this country')
         else:
             raise ('error: you can not attack from this country')
-    
-    
+        
     def get_aggresive_attackable(self):
         atacking_countries = self.get_attackable()
         if atacking_countries:
@@ -104,8 +103,6 @@ class Player:
             self.attack(origin, destination)
             self.infinit_aggresive_attack()
 
-
-
     def get_one_attackable(self):
         atacking_countries = self.get_attackable()
         if atacking_countries:
@@ -115,8 +112,7 @@ class Player:
             return atacking_country, destination
         else:
             return None
-    
-            
+              
     def infinit_random_attack(self):
         temp = self.get_one_attackable() 
         if temp:
@@ -154,3 +150,73 @@ class Player:
             origin, destination = temp
             self.attack(origin, destination)
             self.infinit_semi_smart_aggresive_attack()
+
+    def generateSuccessor(self,attacking_country,destination_country):
+        if attacking_country in set(self.get_attackable().keys()):
+            if destination_country in self.get_attackable()[attacking_country]:
+                attacker_troops = min(self.game.troops[attacking_country][0] - 1, 3)
+                defender_troops = min(self.game.troops[destination_country][0], 2)
+                outcomes = lost_soldiers[(attacker_troops,defender_troops)]
+                successor = {}
+                for attacker_causalities, defender_causalities in outcomes.keys():
+                    new_game = deepcopy(self.game)
+                    new_game.troops[attacking_country][0] -= attacker_causalities
+                    new_game.troops[destination_country][0] -= defender_causalities
+                    if new_game.troops[destination_country][0] < 0:
+                        raise ('error')
+                    elif new_game.troops[destination_country][0] == 0:
+                        # re-assign the winner to the destination country
+                        new_game.troops[destination_country][1] = self.id  # 
+                        # move the troops to the destinaiton country
+                        new_game.troops[destination_country][0] = new_game.troops[attacking_country][0] - 1
+                        new_game.troops[attacking_country][0] = 1
+                    print('probability',float(outcomes[(attacker_causalities, defender_causalities)]))
+                    successor[new_game]=outcomes[(attacker_causalities, defender_causalities)]
+                return(successor)
+            else:
+                raise ('error: you can not attack to this country')
+        else:
+            raise ('error: you can not attack from this country')
+
+
+
+
+
+
+        # state = GameState(self)
+    # def generateSuccessor(self):
+    #     attackable = self.get_attackable()
+    #     for attacker in attackable.keys():
+    #         for defender in attackable[attacker]:
+
+
+    #
+    # def recurse(self, depth):
+    #
+    #     if self.game.check_end_state():# or state.getLegalActions(index) == []:
+    #         return (self.game.check_winner())*1000
+    #     elif depth == 0:
+    #         # print('hey this is evaluationFunction for depth=zero', self.evaluationFunction(state))
+    #         return (self.game.get_eval())  # however it is better not to use "self", but I don't know how
+    #     if self.player.id == 1:
+    #         candidates = [
+    #             (recurse(state.generateSuccessor(index, action), index + 1, depth)[0], action)
+    #             for action in state.getLegalActions(index)
+    #         ]
+    #         return max(candidates)
+    #     elif index < gameState.getNumAgents() - 1:
+    #         candidates = [
+    #             (recurse(state.generateSuccessor(index, action), index + 1, depth)[0], action)
+    #             for action in state.getLegalActions(index)
+    #         ]
+    #         return min(candidates)
+    #     elif index == gameState.getNumAgents() - 1:
+    #         candidates = [
+    #             (recurse(state.generateSuccessor(index, action), 0, depth - 1)[0], action)
+    #             for action in state.getLegalActions(index)
+    #         ]
+    #         return min(candidates)
+    #     print('error')
+    #
+    # print(recurse(gameState, self.index, self.depth))
+    # return recurse(gameState, self.index, self.depth)[1]

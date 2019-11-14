@@ -11,13 +11,13 @@ import copy
 #random assign soldiers to each country
 counter0 = 0
 counter1 = 0
-for i in range(1000):
+for i in range(1):
     # random game:
     risk = game.Game(game.usa_states, player_turn=1)
     
     risk.generate_players()
     risk.generate_troops()
-    risk.assignment(30, 0)
+    risk.assignment(2, 0)
     risk.assignment(100, 1)    
     counter = 0
     while risk.check_end_state() == False and counter<100000:
@@ -33,7 +33,7 @@ for i in range(1000):
             
         risk.player_turn = 1 - risk.player_turn
         counter += 1
-        # print(risk.troops)
+        print('one round')
     if risk.check_end_state():
         winner = risk.check_winner()
         if winner == 1:
