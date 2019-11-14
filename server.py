@@ -4,26 +4,25 @@ import copy
 
 
 #initialization
-usa_states = {"A":["B","C"],"B":["A","C"], "C":["B","A"],}
-
-#starting troop: country:(number of troops, player)
-initial_troops = {"A":[0,1],"B":[0,1],"C":[0,0]}
-
+# usa_states = {"A":["B","C"],"B":["A","C"], "C":["B","A"],}
 
 
 
 #random assign soldiers to each country
 
-for i in range(100):
+for i in range(1):
     # random game:
-    troops = copy.deepcopy(initial_troops)
-    risk = game.Game(usa_states, starting_troops=troops, player_turn=1)
+    risk = game.Game(game.usa_states, player_turn=1)
+    
     risk.generate_players()
-
-    risk.assignment(30, 0)
-    risk.assignment(30, 1)
+    risk.generate_troops()
+    risk.assignment(100, 0)
+    risk.assignment(100, 1)
+    
+    print(risk.troops)
+    
     counter = 0
-    while risk.check_end_state() == False and counter<10000:
+    while risk.check_end_state() == False and counter<1000000:
         turn = risk.player_turn
         player = risk.players[turn]
         atacking_countries = player.get_attackable()
