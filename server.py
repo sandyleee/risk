@@ -9,33 +9,40 @@ import copy
 
 
 #random assign soldiers to each country
-
-for i in range(1):
+counter0 = 0
+counter1 = 0
+for i in range(1000):
     # random game:
     risk = game.Game(game.usa_states, player_turn=1)
     
     risk.generate_players()
     risk.generate_troops()
-    risk.assignment(100, 0)
-    risk.assignment(100, 1)
-    
-    print(risk.troops)
-    
+    risk.assignment(30, 0)
+    risk.assignment(100, 1)    
     counter = 0
-    while risk.check_end_state() == False and counter<1000000:
+    while risk.check_end_state() == False and counter<100000:
+        risk.assignment(3, risk.player_turn)
         turn = risk.player_turn
         player = risk.players[turn]
-        atacking_countries = player.get_attackable()
-        if atacking_countries:
-            choice = np.random.choice(list(atacking_countries))
-            atacking_country = choice
-            destination = np.random.choice(atacking_countries[choice])
-            player.attack(atacking_country,destination)
+        
+        #player 0:semi_smart_aggressive, player 1:random
+        if risk.player_turn:
+            player.infinit_random_attack()
+        else:
+            player.infinit_semi_smart_aggresive_attack()
+            
         risk.player_turn = 1 - risk.player_turn
         counter += 1
+        # print(risk.troops)
     if risk.check_end_state():
-        risk.check_winner()
+        winner = risk.check_winner()
+        if winner == 1:
+            counter1 += 1
+        else:
+            counter0 += 1
     else:
-        print('game not finished in 10000 round')
+        print('game not finished in 1000 round')
 # while game.check_end_state()==False:
 # 
+print("Player 0 wins:", counter0)
+print("Player 1 wins:", counter1)

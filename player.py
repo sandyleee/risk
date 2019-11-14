@@ -13,7 +13,6 @@ class Player:
         self.id = id
         self.game = game#from game class
     def get_attackable(self):
-
         #to ckeck if it is the player's turn
         if self.game.player_turn != self.id:
             raise('not player turn')
@@ -75,3 +74,83 @@ class Player:
                 raise ('error: you can not attack to this country')
         else:
             raise ('error: you can not attack from this country')
+    
+    
+    def get_aggresive_attackable(self):
+        atacking_countries = self.get_attackable()
+        if atacking_countries:
+            origins = atacking_countries.keys()
+            origin = None
+            troops = 0
+            #get the country with maximum troops
+            for country in origins:
+                if self.game.troops[country][0]>troops:
+                    origin = country
+                    troops = self.game.troops[country][0]
+            destination = None
+            troops = 100000
+            for country in atacking_countries[origin]:
+                if self.game.troops[country][0]<troops:
+                    destination = country
+                    troops = self.game.troops[country][0]
+            return origin, destination
+        else:
+            return None
+        
+    def infinit_aggresive_attack(self):
+        temp = self.get_aggresive_attackable()
+        if temp:
+            origin , destination = temp
+            self.attack(origin, destination)
+            self.infinit_aggresive_attack()
+
+
+
+    def get_one_attackable(self):
+        atacking_countries = self.get_attackable()
+        if atacking_countries:
+            choice = np.random.choice(list(atacking_countries))
+            atacking_country = choice
+            destination = np.random.choice(atacking_countries[choice])
+            return atacking_country, destination
+        else:
+            return None
+    
+            
+    def infinit_random_attack(self):
+        temp = self.get_one_attackable() 
+        if temp:
+            origin, destination = temp        
+            self.attack(origin, destination)
+            self.infinit_random_attack()
+
+    def get_semi_smart_aggresive_attackable(self):
+        atacking_countries = self.get_attackable()
+        if atacking_countries:
+            origins = atacking_countries.keys()
+            origin = None
+            otroops = 0
+            # get the country with maximum troops
+            for country in origins:
+                if self.game.troops[country][0] > otroops:
+                    origin = country
+                    otroops = self.game.troops[country][0]
+            destination = None
+            dtroops = 100000
+            for country in atacking_countries[origin]:
+                if self.game.troops[country][0] < dtroops:
+                    destination = country
+                    dtroops = self.game.troops[country][0]
+            if otroops>dtroops+1:
+                return origin, destination
+            else:
+                return None
+        else:
+            return None
+
+    def infinit_semi_smart_aggresive_attack(self):
+        temp = self.get_semi_smart_aggresive_attackable()
+        if temp:
+            origin, destination = temp
+            self.attack(origin, destination)
+            self.infinit_semi_smart_aggresive_attack()
