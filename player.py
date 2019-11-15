@@ -119,6 +119,19 @@ class Player:
             origin, destination = temp        
             self.attack(origin, destination)
             self.infinit_random_attack()
+            
+            
+    def semi_smart_random_attack(self, count):
+        temp = self.get_one_attackable() 
+        if temp:
+            origin, destination = temp
+            otroops = self.game.troops[origin][0]
+            dtroops = self.game.troops[destination][0]
+            if not((otroops==3 and dtroops>1) or otroops==2):
+                self.attack(origin, destination)
+                self.semi_smart_random_attack(0)
+
+                
 
     def get_semi_smart_aggresive_attackable(self):
         atacking_countries = self.get_attackable()
@@ -137,7 +150,8 @@ class Player:
                 if self.game.troops[country][0] < dtroops:
                     destination = country
                     dtroops = self.game.troops[country][0]
-            if otroops>dtroops+1:
+            # if the number of attacking dice is less than defending not to attack
+            if not((otroops==3 and dtroops>1) or otroops==2):
                 return origin, destination
             else:
                 return None
@@ -151,7 +165,7 @@ class Player:
             self.attack(origin, destination)
             self.infinit_semi_smart_aggresive_attack()
 
-    def generateSuccessor(self,attacking_country,destination_country):
+    def generateSuccessor(self,attacking_country,destination_country, change_turn):
         if attacking_country in set(self.get_attackable().keys()):
             if destination_country in self.get_attackable()[attacking_country]:
                 attacker_troops = min(self.game.troops[attacking_country][0] - 1, 3)
@@ -170,7 +184,7 @@ class Player:
                         # move the troops to the destinaiton country
                         new_game.troops[destination_country][0] = new_game.troops[attacking_country][0] - 1
                         new_game.troops[attacking_country][0] = 1
-                    print('probability',float(outcomes[(attacker_causalities, defender_causalities)]))
+                    new_game.change_player(change_turn)
                     successor[new_game]=outcomes[(attacker_causalities, defender_causalities)]
                 return(successor)
             else:
@@ -182,41 +196,11 @@ class Player:
 
 
 
-
-        # state = GameState(self)
-    # def generateSuccessor(self):
-    #     attackable = self.get_attackable()
-    #     for attacker in attackable.keys():
-    #         for defender in attackable[attacker]:
-
-
     #
-    # def recurse(self, depth):
-    #
-    #     if self.game.check_end_state():# or state.getLegalActions(index) == []:
-    #         return (self.game.check_winner())*1000
-    #     elif depth == 0:
-    #         # print('hey this is evaluationFunction for depth=zero', self.evaluationFunction(state))
-    #         return (self.game.get_eval())  # however it is better not to use "self", but I don't know how
-    #     if self.player.id == 1:
-    #         candidates = [
-    #             (recurse(state.generateSuccessor(index, action), index + 1, depth)[0], action)
-    #             for action in state.getLegalActions(index)
-    #         ]
-    #         return max(candidates)
-    #     elif index < gameState.getNumAgents() - 1:
-    #         candidates = [
-    #             (recurse(state.generateSuccessor(index, action), index + 1, depth)[0], action)
-    #             for action in state.getLegalActions(index)
-    #         ]
-    #         return min(candidates)
-    #     elif index == gameState.getNumAgents() - 1:
-    #         candidates = [
-    #             (recurse(state.generateSuccessor(index, action), 0, depth - 1)[0], action)
-    #             for action in state.getLegalActions(index)
-    #         ]
-    #         return min(candidates)
-    #     print('error')
-    #
+    
+        
+        
+    #     
+    # 
     # print(recurse(gameState, self.index, self.depth))
     # return recurse(gameState, self.index, self.depth)[1]

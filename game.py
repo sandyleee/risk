@@ -5,57 +5,62 @@ from player import Player
 import random
 # from enum import Enum
 
-usa_states = {"A":["B","C"],"B":["A","C"], "C":["B","A"],}
-# usa_states = {"Alabama":["Mississippi","Tennessee","Florida","Georgia"],
-#   "Alaska":["Hawaii","California","Arizona"],
-#   "Arizona":["California","Nevada","Utah","New Mexico","Colorado"],
-#   "Arkansas":["Tennessee","Missouri","Oklahoma","Mississippi","Louisiana","Texas"],
-#   "California":["Nevada","Arizona","Alaska"],
-#   "Colorado":["Utah","Wyoming","Arizona","New Mexico","Nebraska","Kansas","Oklahoma"],
-#   "Connecticut":["New York","Rhode Island","Massachusetts"],
-#   "Delaware":["New Jersey","Maryland","Pennsylvania"],
-#   "Florida":["Alabama","Georgia"],
-#   "Georgia":["Florida","Alabama","South Carolina","Tennessee","North Carolina"],
-#   "Hawaii":["Alaska","Texas"],
-#   "Idaho":["Wyoming","Montana","Washington","Utah","Nevada","Oregon"],
-#   "Illinois":["Wisconsin","Iowa","Missouri","Indiana","Kentucky"],
-#   "Indiana":["Illinois","Michigan","Ohio","Kentucky"],
-#   "Iowa":["Wisconsin","Minnesota","Nebraska","South Dakota","Missouri","Illinois"],
-#   "Kansas":["Nebraska","Oklahoma","Colorado","Missouri"],
-#   "Kentucky":["Indiana","Illinois","Virginia","Ohio","West Virginia","Tennessee","Missouri"],
-#   "Louisiana":["Arkansas","Texas","Mississippi"],
-#   "Maine":["New Hampshire"],
-#   "Maryland":["Delaware","Virginia","Pennsylvania","West Virginia"],
-#   "Massachusetts":["Vermont","New Hampshire","New York","Rhode Island","Connecticut"],
-#   "Michigan":["Indiana","Ohio","Wisconsin"],
-#   "Minnesota":["North Dakota","South Dakota","Iowa","Wisconsin"],
-#   "Mississippi":["Alabama","Arkansas","Louisiana","Tennessee"],
-#   "Missouri":["Kansas","Arkansas","Iowa","Illinois","Kentucky","Tennessee","Oklahoma"],
-#   "Montana":["Idaho","Wyoming","North Dakota","South Dakota"],
-#   "Nebraska":["Iowa","South Dakota","Wyoming","Colorado","Kansas","Missouri"],
-#   "Nevada":["Idaho","Utah","Arizona","California","Oregon"],
-#   "New Hampshire":["Maine","Vermont","Massachusetts"],
-#   "New Jersey":["Delaware","New York","Pennsylvania"],
-#   "New Mexico":["Oklahoma","Texas","Colorado","Utah","Arizona"],
-#   "New York":["Vermont","New Jersey","Pennsylvania","Massachusetts","Connecticut"],
-#   "North Carolina":["South Carolina","Virginia","Tennessee"],
-#   "North Dakota":["Montana","South Dakota","Minnesota"],
-#   "Ohio":["West Virginia","Indiana","Michigan","Kentucky","Pennsylvania"],
-#   "Oklahoma":["Texas","Kansas","Colorado","New Mexico","Arkansas","Missouri"],
-#   "Oregon":["Idaho","Washington","Nevada","California"],
-#   "Pennsylvania":["New York","Delaware","New Jersey","Maryland","Ohio","West Virginia"],
-#   "Rhode Island":["Massachusetts","Connecticut"],
-#   "South Carolina":["North Carolina","Georgia"],
-#   "South Dakota":["North Dakota","Wyoming","Montana","Nebraska","Iowa","Minnesota"],
-#   "Tennessee":["North Carolina","Alabama","Mississippi","Georgia","Arkansas","Kentucky","Missouri"],
-#   "Texas":["New Mexico","Oklahoma","Arkansas","Louisiana","Hawaii"],
-#   "Utah":["Idaho","Nevada","Wyoming","Nevada","Colorado","New Mexico"],
-#   "Vermont":["New York","New Hampshire","Massachusetts"],
-#   "Virginia":["West Virginia","Maryland","North Carolina","Kentucky"],
-#   "Washington":["Oregon","Idaho"],
-#   "West Virginia":["Ohio","Virginia","Pennsylvania","Kentucky","Maryland"],
-#   "Wisconsin":["Michigan","Minnesota","Illinois","Iowa"],
-#   "Wyoming":["Montana","Idaho","Nebraska","Utah","Colorado","South Dakota"]}
+usa_states = {"Alabama":["Mississippi","Tennessee","Florida","Georgia"],
+  "Alaska":["Hawaii","California","Arizona"],
+  "Arizona":["California","Nevada","Utah","New Mexico","Colorado"],
+  "Arkansas":["Tennessee","Missouri","Oklahoma","Mississippi","Louisiana","Texas"],
+  "California":["Nevada","Arizona","Alaska"],
+  "Colorado":["Utah","Wyoming","Arizona","New Mexico","Nebraska","Kansas","Oklahoma"],
+  "Connecticut":["New York","Rhode Island","Massachusetts"],
+  "Delaware":["New Jersey","Maryland","Pennsylvania"],
+  "Florida":["Alabama","Georgia"],
+  "Georgia":["Florida","Alabama","South Carolina","Tennessee","North Carolina"],
+  "Hawaii":["Alaska","Texas"],
+  "Idaho":["Wyoming","Montana","Washington","Utah","Nevada","Oregon"],
+  "Illinois":["Wisconsin","Iowa","Missouri","Indiana","Kentucky"],
+  "Indiana":["Illinois","Michigan","Ohio","Kentucky"],
+  "Iowa":["Wisconsin","Minnesota","Nebraska","South Dakota","Missouri","Illinois"],
+  "Kansas":["Nebraska","Oklahoma","Colorado","Missouri"],
+  "Kentucky":["Indiana","Illinois","Virginia","Ohio","West Virginia","Tennessee","Missouri"],
+  "Louisiana":["Arkansas","Texas","Mississippi"],
+  "Maine":["New Hampshire"],
+  "Maryland":["Delaware","Virginia","Pennsylvania","West Virginia"],
+  "Massachusetts":["Vermont","New Hampshire","New York","Rhode Island","Connecticut"],
+  "Michigan":["Indiana","Ohio","Wisconsin"],
+  "Minnesota":["North Dakota","South Dakota","Iowa","Wisconsin"],
+  "Mississippi":["Alabama","Arkansas","Louisiana","Tennessee"],
+  "Missouri":["Kansas","Arkansas","Iowa","Illinois","Kentucky","Tennessee","Oklahoma"],
+  "Montana":["Idaho","Wyoming","North Dakota","South Dakota"],
+  "Nebraska":["Iowa","South Dakota","Wyoming","Colorado","Kansas","Missouri"],
+  "Nevada":["Idaho","Utah","Arizona","California","Oregon"],
+  "New Hampshire":["Maine","Vermont","Massachusetts"],
+  "New Jersey":["Delaware","New York","Pennsylvania"],
+  "New Mexico":["Oklahoma","Texas","Colorado","Utah","Arizona"],
+  "New York":["Vermont","New Jersey","Pennsylvania","Massachusetts","Connecticut"],
+  "North Carolina":["South Carolina","Virginia","Tennessee"],
+  "North Dakota":["Montana","South Dakota","Minnesota"],
+  "Ohio":["West Virginia","Indiana","Michigan","Kentucky","Pennsylvania"],
+  "Oklahoma":["Texas","Kansas","Colorado","New Mexico","Arkansas","Missouri"],
+  "Oregon":["Idaho","Washington","Nevada","California"],
+  "Pennsylvania":["New York","Delaware","New Jersey","Maryland","Ohio","West Virginia"],
+  "Rhode Island":["Massachusetts","Connecticut"],
+  "South Carolina":["North Carolina","Georgia"],
+  "South Dakota":["North Dakota","Wyoming","Montana","Nebraska","Iowa","Minnesota"],
+  "Tennessee":["North Carolina","Alabama","Mississippi","Georgia","Arkansas","Kentucky","Missouri"],
+  "Texas":["New Mexico","Oklahoma","Arkansas","Louisiana","Hawaii"],
+  "Utah":["Idaho","Nevada","Wyoming","Nevada","Colorado","New Mexico"],
+  "Vermont":["New York","New Hampshire","Massachusetts"],
+  "Virginia":["West Virginia","Maryland","North Carolina","Kentucky"],
+  "Washington":["Oregon","Idaho"],
+  "West Virginia":["Ohio","Virginia","Pennsylvania","Kentucky","Maryland"],
+  "Wisconsin":["Michigan","Minnesota","Illinois","Iowa"],
+  "Wyoming":["Montana","Idaho","Nebraska","Utah","Colorado","South Dakota"]}
+usa_states = {"A":["B","C","Z"],"B":["A","C"], "C":["B","A","D"],"D":["C"],"Z":["A","Y"],
+              "Y":["Z"]}
+usa_states = {"A":["B","C","Z","D","Y"],"B":["A","C","Z","D","Y"], "C":["B","A","D"],"D":["C"],"Z":["A","Y"],
+              "Y":["Z"]}
+
+
 
 class Game:
 
@@ -107,10 +112,10 @@ class Game:
     def check_winner(self):
         if self.check_end_state()==True:
             if len(self.get_countries(1)) == 0:
-                print('Game is over and player 0 won!')
+                # print('Game is over and player 0 won!')
                 return 0
             else:
-                print('Game is over and player 1 won!')
+                # print('Game is over and player 1 won!')
                 return 1
         else:
             raise('game has not been finished')
@@ -145,4 +150,51 @@ class Game:
             enemy_troops = self.get_toops_num(enemy_neighbors)
             sum_BSR += enemy_troops/float(self.troops[country][0])
         return 1/sum_BSR
+    def change_player(self, condition):
+        if condition == True:
+            self.player_turn = 1- self.player_turn
                 
+def recurse(game, depth): #return reward, action
+    if game.player_turn == 0:
+        print('changed the player')
+    # print(game.troops)
+    if game.check_end_state():# or state.getLegalActions(index) == []:
+        return ((game.check_winner())*1000, None)
+    elif depth == 0:
+        # print('hey this is evaluationFunction for depth=zero', self.evaluationFunction(state))
+        return (game.get_eval(), None)  # however it is better not to use "self", but I don't know how
+    if game.player_turn == 1:
+        attackable = game.players[1].get_attackable()
+        candidates = {}
+        for origin in attackable.keys():
+            for destination in attackable[origin]:
+                #last argument is chang_turn action
+                candidates[(origin,destination, True)]= game.players[1].generateSuccessor(origin,destination,True)
+                candidates[(origin, destination, False)] = game.players[1].generateSuccessor(origin, destination, False)
+        reward = 0
+        optimal_action = None
+        for action in candidates.keys():
+            action_reward = 0
+            for outcome in candidates[action].keys():
+                action_reward += candidates[action][outcome]*recurse(outcome,depth)[0]
+            if reward < action_reward:
+                reward = action_reward
+                optimal_action = action
+        return reward, optimal_action
+    elif game.player_turn == 0:
+        attackable = game.players[0].get_attackable()
+        candidates = {}
+        for origin in attackable.keys():
+            for destination in attackable[origin]:
+                candidates[(origin,destination, True)]= game.players[0].generateSuccessor(origin,destination, True)
+                candidates[(origin, destination, False)] = game.players[0].generateSuccessor(origin, destination, False)
+        reward = 10000
+        optimal_action = None
+        for action in candidates.keys():
+            action_reward = 0
+            for outcome in candidates[action].keys():
+                action_reward += candidates[action][outcome]*recurse(outcome,depth-1)[0]
+            if reward > action_reward:
+                reward = action_reward
+                optimal_action = action
+        return reward, optimal_action
