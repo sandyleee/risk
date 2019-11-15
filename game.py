@@ -57,8 +57,8 @@ usa_states = {"Alabama":["Mississippi","Tennessee","Florida","Georgia"],
   "Wyoming":["Montana","Idaho","Nebraska","Utah","Colorado","South Dakota"]}
 usa_states = {"A":["B","C","Z"],"B":["A","C"], "C":["B","A","D"],"D":["C"],"Z":["A","Y"],
               "Y":["Z"]}
-usa_states = {"A":["B","C","Z","D","Y"],"B":["A","C","Z","D","Y"], "C":["B","A","D"],"D":["C"],"Z":["A","Y"],
-              "Y":["Z"]}
+usa_states = {"A":["B","C","Z","D","Y"],"B":["A","C","Z","D","Y"], "C":["B","A","D","Y","Z"],
+              "D":["B","A","C","Y","Z"],"Z":["B","A","C","D","Y"], "Y":["B","A","C","D","Z"]}
 
 
 

@@ -21,7 +21,6 @@ for i in range(1000):
     risk.assignment(5, 0)
     risk.assignment(5, 1)    
     counter = 0
-    print(risk.troops)
     while risk.check_end_state() == False and counter<10000:
         risk.assignment(3, risk.player_turn)
         turn = risk.player_turn
@@ -30,9 +29,12 @@ for i in range(1000):
         #player 0:semi_smart_aggressive, player 1:random
         if risk.player_turn:
             player.infinit_semi_smart_aggresive_attack()
+            # player.semi_smart_random_attack(0)
             # player.infinit_random_attack()
         else:
+            # player.infinit_semi_smart_aggresive_attack()
             player.semi_smart_random_attack(0)
+            # player.infinit_random_attack()
             
         risk.player_turn = 1 - risk.player_turn
         counter += 1
