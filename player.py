@@ -9,6 +9,9 @@ from copy import deepcopy
 # from game import Game
 
 lost_soldiers ={(1,1):{(0,1):15./36,(1,0):21./36},(2,1):{(0,1):125./216,(1,0):91./216},(3,1):{(0,1):855./1296,(1,0):441./1296},(1,2):{(0,1):55./216,(1,0):161./216},(2,2):{(0,2):295./1296,(2,0):581./1296,(1,1):420./1296},(3,2):{(0,2):2890./7776,(2,0):2275./7776,(1,1):2611./7776}}
+
+
+
 class Player:
     def __init__(self, id, game):
         self.id = id
@@ -164,7 +167,12 @@ class Player:
             origin, destination = temp
             self.attack(origin, destination)
             self.infinit_semi_smart_aggresive_attack()
-
+    
+    def minimax_attack(self):
+        if self.id == 1 and self.get_attackable():
+            (origin, destination, change_player) = recurse(self.game,1)[1]
+            self.attack(origin,destination)
+            self.minimax_attack()
     def generateSuccessor(self,attacking_country,destination_country, change_turn):
         if attacking_country in set(self.get_attackable().keys()):
             if destination_country in self.get_attackable()[attacking_country]:
@@ -204,3 +212,48 @@ class Player:
     # 
     # print(recurse(gameState, self.index, self.depth))
     # return recurse(gameState, self.index, self.depth)[1]
+    
+    
+    
+def recurse(game, depth): #return reward, action
+    # print(game.troops)
+    if game.check_end_state():# or state.getLegalActions(index) == []:
+        return ((game.check_winner())*1000, None)
+    elif depth == 0:
+        # print('hey this is evaluationFunction for depth=zero', self.evaluationFunction(state))
+        return (game.get_eval(), None)  # however it is better not to use "self", but I don't know how
+    if game.player_turn == 1:
+        attackable = game.players[1].get_attackable()
+        candidates = {}
+        for origin in attackable.keys():
+            for destination in attackable[origin]:
+                #last argument is chang_turn action
+                candidates[(origin,destination, True)]= game.players[1].generateSuccessor(origin,destination,True)
+                candidates[(origin, destination, False)] = game.players[1].generateSuccessor(origin, destination, False)
+        reward = 0
+        optimal_action = None
+        for action in candidates.keys():
+            action_reward = 0
+            for outcome in candidates[action].keys():
+                action_reward += candidates[action][outcome]*recurse(outcome,depth)[0]
+            if reward < action_reward:
+                reward = action_reward
+                optimal_action = action
+        return reward, optimal_action
+    elif game.player_turn == 0:
+        attackable = game.players[0].get_attackable()
+        candidates = {}
+        for origin in attackable.keys():
+            for destination in attackable[origin]:
+                candidates[(origin,destination, True)]= game.players[0].generateSuccessor(origin,destination, True)
+                candidates[(origin, destination, False)] = game.players[0].generateSuccessor(origin, destination, False)
+        reward = 10000
+        optimal_action = None
+        for action in candidates.keys():
+            action_reward = 0
+            for outcome in candidates[action].keys():
+                action_reward += candidates[action][outcome]*recurse(outcome,depth-1)[0]
+            if reward > action_reward:
+                reward = action_reward
+                optimal_action = action
+        return reward, optimal_action

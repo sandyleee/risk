@@ -55,8 +55,8 @@ usa_states = {"Alabama":["Mississippi","Tennessee","Florida","Georgia"],
   "West Virginia":["Ohio","Virginia","Pennsylvania","Kentucky","Maryland"],
   "Wisconsin":["Michigan","Minnesota","Illinois","Iowa"],
   "Wyoming":["Montana","Idaho","Nebraska","Utah","Colorado","South Dakota"]}
-usa_states = {"A":["B","C","Z"],"B":["A","C"], "C":["B","A","D"],"D":["C"],"Z":["A","Y"],
-              "Y":["Z"]}
+# usa_states = {"A":["B","C","Z"],"B":["A","C"], "C":["B","A","D"],"D":["C"],"Z":["A","Y"],
+#               "Y":["Z"]}
 usa_states = {"A":["B","C","Z","D","Y"],"B":["A","C","Z","D","Y"], "C":["B","A","D","Y","Z"],
               "D":["B","A","C","Y","Z"],"Z":["B","A","C","D","Y"], "Y":["B","A","C","D","Z"]}
 
@@ -154,47 +154,3 @@ class Game:
         if condition == True:
             self.player_turn = 1- self.player_turn
                 
-def recurse(game, depth): #return reward, action
-    if game.player_turn == 0:
-        print('changed the player')
-    # print(game.troops)
-    if game.check_end_state():# or state.getLegalActions(index) == []:
-        return ((game.check_winner())*1000, None)
-    elif depth == 0:
-        # print('hey this is evaluationFunction for depth=zero', self.evaluationFunction(state))
-        return (game.get_eval(), None)  # however it is better not to use "self", but I don't know how
-    if game.player_turn == 1:
-        attackable = game.players[1].get_attackable()
-        candidates = {}
-        for origin in attackable.keys():
-            for destination in attackable[origin]:
-                #last argument is chang_turn action
-                candidates[(origin,destination, True)]= game.players[1].generateSuccessor(origin,destination,True)
-                candidates[(origin, destination, False)] = game.players[1].generateSuccessor(origin, destination, False)
-        reward = 0
-        optimal_action = None
-        for action in candidates.keys():
-            action_reward = 0
-            for outcome in candidates[action].keys():
-                action_reward += candidates[action][outcome]*recurse(outcome,depth)[0]
-            if reward < action_reward:
-                reward = action_reward
-                optimal_action = action
-        return reward, optimal_action
-    elif game.player_turn == 0:
-        attackable = game.players[0].get_attackable()
-        candidates = {}
-        for origin in attackable.keys():
-            for destination in attackable[origin]:
-                candidates[(origin,destination, True)]= game.players[0].generateSuccessor(origin,destination, True)
-                candidates[(origin, destination, False)] = game.players[0].generateSuccessor(origin, destination, False)
-        reward = 10000
-        optimal_action = None
-        for action in candidates.keys():
-            action_reward = 0
-            for outcome in candidates[action].keys():
-                action_reward += candidates[action][outcome]*recurse(outcome,depth-1)[0]
-            if reward > action_reward:
-                reward = action_reward
-                optimal_action = action
-        return reward, optimal_action
