@@ -13,7 +13,7 @@ a. game.py: In this file, we implemented the main game and define the class Game
 
 b. player.py: In this file, we defined all the necessary methods to operate the attack phase, as the reinforcement is randomized and we are not considering the fortifying phase yet. Thus, two methods are useful: get_attackable, which will return all the territories that the player can attack (all the enemy territories which are neighbors to controlled territories with strictly more than 1 troop). Secondly, we define the method attack, which specifies all the dice rules and reassign the troops to the conquered territory if the attacker wins the battle.
 
-c. server.py: In this file, we run the game multiple times to compare the performance of the agents. This file fully controlls the game flow.
+c. server.py: In this file, we run the game multiple times to compare the performance of the agents. This file fully controlls the game flow. Also there is a variation of this file named serverTD.py which controls the flow of the game when one of its players is a TD player.
 
 In this project we have implemented four kinds of players:
 1. Random player: which reinfoce and attack randomly and do not fortify its troops after attack
