@@ -23,3 +23,5 @@ and the most number of troops, and then attack from the strongest country at eac
 Then find the strongest neighbor that can attack to that country and reinforce it with all given troops. In the attack phase, it will choose origin and destination in a same manner that it implemented for reinforcement phase.
 In fortify phase it will fortify the troops such that it minimizes the maximum BSR amonge its countries.
 4. TD player: This player which uses TD learning algorithm in all three reinforcement, attack and fortify phases.
+
+You may run python server.py to see the result of fighting two agents. To change the agents type you can do it in server.py.
